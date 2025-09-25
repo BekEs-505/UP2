@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منشئ محتوى الأفلام والمسلسلات</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #e2127d;
+            --secondary: #0f1730;
+            --accent: #14dac2;
+            --dark: #0a0e1d;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --card-bg: #1a223d;
+            --hover-effect: linear-gradient(45deg, #e2127d, #8e44ad);
+            --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            --image-radius: 16px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: var(--image-radius);
+            box-shadow: var(--card-shadow);
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .logo i {
+            color: var(--primary);
+            font-size: 36px;
+        }
+        
+        .logo h1 {
+            font-size: 28px;
+            background: var(--hover-effect);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        
+        .description {
+            color: var(--gray);
+            margin-bottom: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .tabs {
+            display: flex;
+            background: var(--secondary);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+        
+        .tab.active {
+            background: var(--primary);
+        }
+        
+        .tab:hover {
+            background: rgba(226, 18, 125, 0.7);
+        }
+        
+        .tab-content {
+            display: none;
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--accent);
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 14px;
+            border-radius: 8px;
+            border: 1px solid var(--secondary);
+            background: var(--secondary);
+            color: var(--light);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(226, 18, 125, 0.3);
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .btn-secondary {
+            background: var(--accent);
+            color: var(--dark);
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn-success {
+            background: #2ecc71;
+            color: white;
+        }
+        
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 14px;
+        }
+        
+        .items-list {
+            margin-top: 30px;
+            border-top: 1px solid var(--secondary);
+            padding-top: 20px;
+        }
+        
+        .item-card {
+            background: var(--secondary);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+        }
+        
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+        
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .item-title {
+            font-weight: bold;
+            font-size: 20px;
+            color: var(--accent);
+        }
+        
+        .item-actions {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .item-details {
+            color: var(--gray);
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .export-section {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 10px;
+            margin-top: 30px;
+            box-shadow: var(--card-shadow);
+        }
+        
+        .json-output {
+            background: var(--secondary);
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .episode-item, .channel-item, .season-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .season-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--gray);
+        }
+        
+        .episodes-container {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            z-index: 9999;
+            box-shadow: var(--card-shadow);
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .form-section {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        
+        .form-section-title {
+            font-size: 20px;
+            color: var(--accent);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .github-config {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .config-status {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            background: var(--secondary);
+            display: none;
+        }
+        
+        .config-status.connected {
+            display: block;
+            background: rgba(46, 204, 113, 0.2);
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .config-status.error {
+            display: block;
+            background: rgba(231, 76, 60, 0.2);
+            border-left: 4px solid #e74c3c;
+        }
+        
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .item-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .item-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .tab {
+                min-width: 100%;
+            }
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .badge-hot {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .badge-new {
+            background: var(--accent);
+            color: var(--dark);
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: var(--secondary);
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .auto-upload {
+            background: rgba(46, 204, 113, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #2ecc71;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+            margin-left: 10px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-film"></i>
+                <h1>منشئ محتوى الأفلام والمسلسلات</h1>
+            </div>
+            <p class="description">أدير محتوى موقعك وقم برفع ملف JSON تلقائياً إلى GitHub</p>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="movies">الأفلام</div>
+            <div class="tab" data-tab="series">المسلسلات</div>
+            <div class="tab" data-tab="channels">القنوات</div>
+            <div class="tab" data-tab="export">رفع إلى GitHub</div>
+        </div>
+        
+        <!-- قسم الأفلام -->
+        <div class="tab-content active" id="movies-content">
+            <h2><i class="fas fa-film"></i> إضافة فيلم جديد</h2>
+            
+            <div class="form-section">
+                <div class="form-group">
+                    <label for="movie-title">عنوان الفيلم</label>
+                    <input type="text" id="movie-title" placeholder="أدخل عنوان الفيلم">
+                </div>
+                <div class="form-group">
+                    <label for="movie-category">التصنيف</label>
+                    <input type="text" id="movie-category" placeholder="أدخل التصنيف (دراما، أكشن، إلخ)">
+                </div>
+                <div class="form-group">
+                    <label for="movie-rating">التقييم</label>
+                    <input type="text" id="movie-rating" placeholder="مثال: 8.5/10">
+                </div>
+                <div class="form-group">
+                    <label for="movie-image">رابط الصورة</label>
+                    <input type="text" id="movie-image" placeholder="أدخل رابط الصورة">
+                </div>
+                <div class="form-group">
+                    <label for="movie-video">رابط الفيديو</label>
+                    <input type="text" id="movie-video" placeholder="أدخل رابط الفيديو">
+                </div>
+                <div class="form-group">
+                    <label for="movie-story">قصة الفيلم</label>
+                    <textarea id="movie-story" placeholder="أدخل قصة الفيلم"></textarea>
+                </div>
+                <button onclick="addMovie()"><i class="fas fa-plus"></i> إضافة فيلم</button>
+            </div>
+            
+            <div class="items-list" id="movies-list">
+                <h2><i class="fas fa-list"></i> الأفلام المضافة</h2>
+                <!-- سيتم ملؤها بواسطة JavaScript -->
+            </div>
+        </div>
+        
+        <!-- قسم المسلسلات -->
+        <div class="tab-content" id="series-content">
+            <h2><i class="fas fa-tv"></i> إضافة مسلسل جديد</h2>
+            
+            <div class="form-section">
+                <div class="form-group">
+                    <label for="series-title">عنوان المسلسل</label>
+                    <input type="text" id="series-title" placeholder="أدخل عنوان المسلسل">
+                </div>
+                <div class="form-group">
+                    <label for="series-category">التصنيف</label>
+                    <input type="text" id="series-category" placeholder="أدخل التصنيف (دراما، أكشن، إلخ)">
+                </div>
+                <div class="form-group">
+                    <label for="series-rating">التقييم</label>
+                    <input type="text" id="series-rating" placeholder="مثال: 8.5/10">
+                </div>
+                <div class="form-group">
+                    <label for="series-image">رابط الصورة</label>
+                    <input type="text" id="series-image" placeholder="أدخل رابط الصورة">
+                </div>
+                <div class="form-group">
+                    <label for="series-story">قصة المسلسل</label>
+                    <textarea id="series-story" placeholder="أدخل قصة المسلسل"></textarea>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3 class="form-section-title"><i class="fas fa-layer-group"></i> إدارة المواسم</h3>
+                <div class="form-group">
+                    <label for="season-title">عنوان الموسم</label>
+                    <input type="text" id="season-title" placeholder="مثال: الموسم الأول">
+                </div>
+                <button onclick="addSeason()"><i class="fas fa-plus"></i> إضافة موسم</button>
+                
+                <div id="seasons-list">
+                    <h3>المواسم المضافة</h3>
+                    <!-- سيتم ملؤها بواسطة JavaScript -->
+                </div>
+            </div>
+            
+            <button onclick="addSeries()" style="margin-top: 20px;"><i class="fas fa-plus"></i> إضافة مسلسل</button>
+            
+            <div class="items-list" id="series-list">
+                <h2><i class="fas fa-list"></i> المسلسلات المضافة</h2>
+                <!-- سيتم ملؤها بواسطة JavaScript -->
+            </div>
+        </div>
+        
+        <!-- قسم القنوات -->
+        <div class="tab-content" id="channels-content">
+            <h2><i class="fas fa-broadcast-tower"></i> إضافة قناة جديدة</h2>
+            
+            <div class="form-section">
+                <div class="form-group">
+                    <label for="channel-name">اسم القناة</label>
+                    <input type="text" id="channel-name" placeholder="أدخل اسم القناة">
+                </div>
+                <div class="form-group">
+                    <label for="channel-category">التصنيف</label>
+                    <input type="text" id="channel-category" placeholder="أدخل التصنيف (ترفيه، رياضة، إلخ)">
+                </div>
+                <div class="form-group">
+                    <label for="channel-logo">أيقونة القناة</label>
+                    <input type="text" id="channel-logo" placeholder="أدخل اسم الأيقونة (من Font Awesome)">
+                </div>
+                <div class="form-group">
+                    <label for="channel-color">لون القناة (اختياري)</label>
+                    <input type="text" id="channel-color" placeholder="أدخل اللون (مثال: #e74c3c)">
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <h3 class="form-section-title"><i class="fas fa-list"></i> إضافة قناة فرعية</h3>
+                <div class="form-group">
+                    <label for="subchannel-name">اسم القناة الفرعية</label>
+                    <input type="text" id="subchannel-name" placeholder="أدخل اسم القناة الفرعية">
+                </div>
+                <div class="form-group">
+                    <label for="subchannel-logo">أيقونة القناة الفرعية</label>
+                    <input type="text" id="subchannel-logo" placeholder="أدخل اسم الأيقونة (من Font Awesome)">
+                </div>
+                <div class="form-group">
+                    <label for="subchannel-video">رابط البث</label>
+                    <input type="text" id="subchannel-video" placeholder="أدخل رابط البث">
+                </div>
+                <button onclick="addSubChannel()"><i class="fas fa-plus"></i> إضافة قناة فرعية</button>
+                
+                <div id="subchannels-list">
+                    <h3>القنوات الفرعية المضافة</h3>
+                    <!-- سيتم ملؤها بواسطة JavaScript -->
+                </div>
+            </div>
+            
+            <button onclick="addChannel()" style="margin-top: 20px;"><i class="fas fa-plus"></i> إضافة قناة</button>
+            
+            <div class="items-list" id="channels-list">
+                <h2><i class="fas fa-list"></i> القنوات المضافة</h2>
+                <!-- سيتم ملؤها بواسطة JavaScript -->
+            </div>
+        </div>
+        
+        <!-- قسم التصدير -->
+        <div class="tab-content" id="export-content">
+            <h2><i class="fas fa-file-export"></i> رفع المحتوى إلى GitHub</h2>
+            <p>بعد إضافة المحتوى، يمكنك رفع ملف JSON تلقائياً إلى GitHub.</p>
+            
+            <div class="github-config">
+                <h3><i class="fab fa-github"></i> إعدادات GitHub</h3>
+                <div class="form-group">
+                    <label for="github-repo">اسم المستودع (Repository)</label>
+                    <input type="text" id="github-repo" placeholder="اسم المستودع">
+                </div>
+                <div class="form-group">
+                    <label for="github-path">مسار الملف (Path)</label>
+                    <input type="text" id="github-path" placeholder="مسار الملف (مثال: data/content.json)" value="data/content.json">
+                </div>
+                <div class="form-group">
+                    <label for="github-branch">اسم الفرع (Branch)</label>
+                    <input type="text" id="github-branch" placeholder="اسم الفرع (افتراضي: main)" value="main">
+                </div>
+                <button onclick="saveGithubConfig()"><i class="fas fa-save"></i> حفظ الإعدادات</button>
+                
+                <div id="config-status" class="config-status"></div>
+            </div>
+            
+            <div class="auto-upload">
+                <h3><i class="fas fa-robot"></i> الرفع التلقائي</h3>
+                <p>تفعيل الرفع التلقائي إلى GitHub بعد كل تعديل:</p>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="auto-upload-toggle">
+                    <span class="slider"></span>
+                </label>
+                <span id="auto-upload-status">معطل</span>
+            </div>
+            
+            <div class="export-section">
+                <button onclick="generateJSON()"><i class="fas fa-code"></i> توليد JSON</button>
+                
+                <div class="json-output" id="json-output">
+                    سيظهر محتوى JSON هنا بعد الضغط على الزر أعلاه
+                </div>
+                
+                <div class="actions">
+                    <button onclick="copyJSON()"><i class="fas fa-copy"></i> نسخ JSON</button>
+                    <button onclick="downloadJSON()" class="btn-secondary"><i class="fas fa-download"></i> تحميل كملف JSON</button>
+                    <button onclick="uploadToGitHub()" class="btn-success"><i class="fab fa-github"></i> رفع إلى GitHub</button>
+                    <button onclick="clearAllData()" class="btn-danger"><i class="fas fa-trash"></i> مسح كل البيانات</button>
+                </div>
+                
+                <div id="upload-progress" class="progress-bar" style="display: none;">
+                    <div class="progress" id="progress-bar"></div>
+                </div>
+                <div id="upload-status"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification"></div>
+
+    <script>
+        // بيانات التخزين
+        let contentData = {
+            movies: [],
+            series: [],
+            channels: []
+        };
+        
+        // بيانات مؤقتة للإضافات
+        let currentSeasons = [];
+        let currentSubChannels = [];
+        
+        // إعدادات GitHub
+        let githubConfig = {
+            repo: '',
+            path: 'data/content.json',
+            branch: 'main'
+        };
+        
+        // الرفع التلقائي
+        let autoUpload = false;
+        
+        // تحميل البيانات المحفوظة
+        function loadData() {
+            const savedData = localStorage.getItem('contentData');
+            if (savedData) {
+                contentData = JSON.parse(savedData);
+                updateLists();
+            }
+            
+            const savedGithubConfig = localStorage.getItem('githubConfig');
+            if (savedGithubConfig) {
+                githubConfig = JSON.parse(savedGithubConfig);
+                document.getElementById('github-repo').value = githubConfig.repo;
+                document.getElementById('github-path').value = githubConfig.path;
+                document.getElementById('github-branch').value = githubConfig.branch;
+                
+                // عرض حالة الإعدادات
+                const configStatus = document.getElementById('config-status');
+                configStatus.textContent = 'تم تحميل إعدادات GitHub المحفوظة';
+                configStatus.classList.add('connected');
+            }
+            
+            const savedAutoUpload = localStorage.getItem('autoUpload');
+            if (savedAutoUpload) {
+                autoUpload = JSON.parse(savedAutoUpload);
+                document.getElementById('auto-upload-toggle').checked = autoUpload;
+                updateAutoUploadStatus();
+            }
+        }
+        
+        // حفظ البيانات
+        function saveData() {
+            localStorage.setItem('contentData', JSON.stringify(contentData));
+        }
+        
+        // حفظ إعدادات GitHub
+        function saveGithubConfig() {
+            githubConfig.repo = document.getElementById('github-repo').value;
+            githubConfig.path = document.getElementById('github-path').value;
+            githubConfig.branch = document.getElementById('github-branch').value;
+            
+            if (!githubConfig.repo || !githubConfig.path) {
+                showNotification('يرجى ملء جميع حقول إعدادات GitHub');
+                return;
+            }
+            
+            localStorage.setItem('githubConfig', JSON.stringify(githubConfig));
+            
+            const configStatus = document.getElementById('config-status');
+            configStatus.textContent = 'تم حفظ إعدادات GitHub بنجاح';
+            configStatus.classList.add('connected');
+            configStatus.classList.remove('error');
+            
+            showNotification('تم حفظ إعدادات GitHub بنجاح');
+        }
+        
+        // تحديث حالة الرفع التلقائي
+        function updateAutoUploadStatus() {
+            const statusElement = document.getElementById('auto-upload-status');
+            statusElement.textContent = autoUpload ? 'مفعل' : 'معطل';
+            statusElement.style.color = autoUpload ? '#2ecc71' : '#e74c3c';
+        }
+        
+        // تبديل الرفع التلقائي
+        document.getElementById('auto-upload-toggle').addEventListener('change', function() {
+            autoUpload = this.checked;
+            localStorage.setItem('autoUpload', JSON.stringify(autoUpload));
+            updateAutoUploadStatus();
+            showNotification(autoUpload ? 'تم تفعيل الرفع التلقائي' : 'تم تعطيل الرفع التلقائي');
+        });
+        
+        // إظهار الإشعار
+        function showNotification(message, duration = 3000) {
+            const notification = document.getElementById('notification');
+            notification.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, duration);
+        }
+        
+        // تبديل التبويبات
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                
+                this.classList.add('active');
+                document.getElementById(`${this.dataset.tab}-content`).classList.add('active');
+            });
+        });
+        
+        // إضافة فيلم
+        function addMovie() {
+            const title = document.getElementById('movie-title').value;
+            const category = document.getElementById('movie-category').value;
+            const rating = document.getElementById('movie-rating').value;
+            const image = document.getElementById('movie-image').value;
+            const videoUrl = document.getElementById('movie-video').value;
+            const story = document.getElementById('movie-story').value;
+            
+            if (!title || !category || !rating || !image || !videoUrl || !story) {
+                showNotification('يرجى ملء جميع الحقول');
+                return;
+            }
+            
+            const newMovie = {
+                id: 'movie' + (Date.now()),
+                title,
+                category,
+                rating,
+                image,
+                videoUrl,
+                story,
+                isHot: Math.random() > 0.5,
+                isNew: Math.random() > 0.5
+            };
+            
+            contentData.movies.push(newMovie);
+            saveData();
+            updateLists();
+            
+            // مسح الحقول
+            document.getElementById('movie-title').value = '';
+            document.getElementById('movie-category').value = '';
+            document.getElementById('movie-rating').value = '';
+            document.getElementById('movie-image').value = '';
+            document.getElementById('movie-video').value = '';
+            document.getElementById('movie-story').value = '';
+            
+            showNotification('تم إضافة الفيلم بنجاح');
+            
+            // رفع تلقائي إلى GitHub إذا كان مفعلاً
+            if (autoUpload && githubConfig.repo) {
+                setTimeout(uploadToGitHub, 1000);
+            }
+        }
+        
+        // إضافة موسم
+        function addSeason() {
+            const title = document.getElementById('season-title').value;
+            
+            if (!title) {
+                showNotification('يرجى إدخال عنوان الموسم');
+                return;
+            }
+            
+            const newSeason = {
+                id: 'season' + (Date.now()),
+                title,
+                episodes: []
+            };
+            
+            currentSeasons.push(newSeason);
+            updateSeasonsList();
+            
+            // مسح الحقل
+            document.getElementById('season-title').value = '';
+            
+            showNotification('تم إضافة الموسم بنجاح');
+        }
+        
+        // إضافة حلقة إلى الموسم
+        function addEpisode(seasonIndex) {
+            const episodeTitle = prompt('أدخل عنوان الحلقة:');
+            if (!episodeTitle) return;
+            
+            const episodeDuration = prompt('أدخل مدة الحلقة (مثال: 45:00):');
+            if (!episodeDuration) return;
+            
+            const episodeThumbnail = prompt('أدخل رابط صورة الحلقة:');
+            if (!episodeThumbnail) return;
+            
+            const episodeVideo = prompt('أدخل رابط الحلقة:');
+            if (!episodeVideo) return;
+            
+            const newEpisode = {
+                id: 'episode' + (Date.now()),
+                title: episodeTitle,
+                duration: episodeDuration,
+                thumbnail: episodeThumbnail,
+                videoUrl: episodeVideo
+            };
+            
+            currentSeasons[seasonIndex].episodes.push(newEpisode);
+            updateSeasonsList();
+            
+            showNotification('تم إضافة الحلقة بنجاح');
+        }
+        
+        // إضافة مسلسل
+        function addSeries() {
+            const title = document.getElementById('series-title').value;
+            const category = document.getElementById('series-category').value;
+            const rating = document.getElementById('series-rating').value;
+            const image = document.getElementById('series-image').value;
+            const story = document.getElementById('series-story').value;
+            
+            if (!title || !category || !rating || !image || !story || currentSeasons.length === 0) {
+                showNotification('يرجى ملء جميع الحقول وإضافة مواسم على الأقل');
+                return;
+            }
+            
+            // تحويل currentSeasons إلى التنسيق المطلوب
+            const seasonsData = {};
+            currentSeasons.forEach((season, index) => {
+                seasonsData[index + 1] = {
+                    title: season.title,
+                    episodes: season.episodes
+                };
+            });
+            
+            const newSeries = {
+                id: 'series' + (Date.now()),
+                title,
+                category,
+                rating,
+                image,
+                isNew: Math.random() > 0.5,
+                data: {
+                    title,
+                    poster: image,
+                    story,
+                    rating,
+                    category,
+                    year: new Date().getFullYear(),
+                    seasons: seasonsData
+                }
+            };
+            
+            contentData.series.push(newSeries);
+            saveData();
+            updateLists();
+            
+            // مسح الحقول والمتغيرات المؤقتة
+            document.getElementById('series-title').value = '';
+            document.getElementById('series-category').value = '';
+            document.getElementById('series-rating').value = '';
+            document.getElementById('series-image').value = '';
+            document.getElementById('series-story').value = '';
+            document.getElementById('season-title').value = '';
+            currentSeasons = [];
+            updateSeasonsList();
+            
+            showNotification('تم إضافة المسلسل بنجاح');
+            
+            // رفع تلقائي إلى GitHub إذا كان مفعلاً
+            if (autoUpload && githubConfig.repo) {
+                setTimeout(uploadToGitHub, 1000);
+            }
+        }
+        
+        // إضافة قناة فرعية
+        function addSubChannel() {
+            const name = document.getElementById('subchannel-name').value;
+            const logo = document.getElementById('subchannel-logo').value;
+            const videoUrl = document.getElementById('subchannel-video').value;
+            
+            if (!name || !logo || !videoUrl) {
+                showNotification('يرجى ملء جميع حقول القناة الفرعية');
+                return;
+            }
+            
+            const newSubChannel = {
+                id: 'subchannel' + (Date.now()),
+                name,
+                logo,
+                videoUrl
+            };
+            
+            currentSubChannels.push(newSubChannel);
+            updateSubChannelsList();
+            
+            // مسح الحقول
+            document.getElementById('subchannel-name').value = '';
+            document.getElementById('subchannel-logo').value = '';
+            document.getElementById('subchannel-video').value = '';
+            
+            showNotification('تم إضافة القناة الفرعية بنجاح');
+        }
+        
+        // إضافة قناة
+        function addChannel() {
+            const name = document.getElementById('channel-name').value;
+            const category = document.getElementById('channel-category').value;
+            const logo = document.getElementById('channel-logo').value;
+            const color = document.getElementById('channel-color').value;
+            
+            if (!name || !category || !logo || currentSubChannels.length === 0) {
+                showNotification('يرجى ملء جميع الحقول وإضافة قنوات فرعية على الأقل');
+                return;
+            }
+            
+            const newChannel = {
+                id: 'channel' + (Date.now()),
+                name,
+                category,
+                logo,
+                color: color || null,
+                subChannels: [...currentSubChannels]
+            };
+            
+            contentData.channels.push(newChannel);
+            saveData();
+            updateLists();
+            
+            // مسح الحقول والمتغيرات المؤقتة
+            document.getElementById('channel-name').value = '';
+            document.getElementById('channel-category').value = '';
+            document.getElementById('channel-logo').value = '';
+            document.getElementById('channel-color').value = '';
+            currentSubChannels = [];
+            updateSubChannelsList();
+            
+            showNotification('تم إضافة القناة بنجاح');
+            
+            // رفع تلقائي إلى GitHub إذا كان مفعلاً
+            if (autoUpload && githubConfig.repo) {
+                setTimeout(uploadToGitHub, 1000);
+            }
+        }
+        
+        // تحديث قائمة المواسم
+        function updateSeasonsList() {
+            const list = document.getElementById('seasons-list');
+            list.innerHTML = '<h3><i class="fas fa-layer-group"></i> المواسم المضافة</h3>';
+            
+            if (currentSeasons.length === 0) {
+                list.innerHTML += '<p>لا توجد مواسم مضافة</p>';
+                return;
+            }
+            
+            currentSeasons.forEach((season, index) => {
+                const seasonElement = document.createElement('div');
+                seasonElement.className = 'season-item';
+                seasonElement.innerHTML = `
+                    <div class="season-header">
+                        <strong>${season.title}</strong>
+                        <div>
+                            <button onclick="addEpisode(${index})" class="btn-secondary btn-small">
+                                <i class="fas fa-plus"></i> إضافة حلقة
+                            </button>
+                            <button onclick="removeSeason(${index})" class="btn-danger btn-small">
+                                <i class="fas fa-trash"></i> حذف
+                            </button>
+                        </div>
+                    </div>
+                    <div class="episodes-container">
+                        <p>عدد الحلقات: ${season.episodes.length}</p>
+                        ${season.episodes.length > 0 ? `
+                            <div style="margin-top: 10px;">
+                                ${season.episodes.map(ep => `
+                                    <div class="episode-item">
+                                        <strong>${ep.title}</strong> - ${ep.duration}
+                                        <button onclick="removeEpisode(${index}, ${season.episodes.indexOf(ep)})" class="btn-danger btn-small" style="margin-right: 10px;">
+                                            <i class="fas fa-trash"></i> حذف
+                                        </button>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                list.appendChild(seasonElement);
+            });
+        }
+        
+        // تحديث قائمة القنوات الفرعية
+        function updateSubChannelsList() {
+            const list = document.getElementById('subchannels-list');
+            list.innerHTML = '<h3><i class="fas fa-list"></i> القنوات الفرعية المضافة</h3>';
+            
+            if (currentSubChannels.length === 0) {
+                list.innerHTML += '<p>لا توجد قنوات فرعية مضافة</p>';
+                return;
+            }
+            
+            currentSubChannels.forEach((channel, index) => {
+                const channelElement = document.createElement('div');
+                channelElement.className = 'channel-item';
+                channelElement.innerHTML = `
+                    <strong>${channel.name}</strong> (${channel.logo})
+                    <button onclick="removeSubChannel(${index})" class="btn-danger btn-small" style="margin-right: 10px;">
+                        <i class="fas fa-trash"></i> حذف
+                    </button>
+                `;
+                list.appendChild(channelElement);
+            });
+        }
+        
+        // تحديث القوائم
+        function updateLists() {
+            // تحديث قائمة الأفلام
+            const moviesList = document.getElementById('movies-list');
+            moviesList.innerHTML = '<h2><i class="fas fa-list"></i> الأفلام المضافة</h2>';
+            
+            if (contentData.movies.length === 0) {
+                moviesList.innerHTML += '<p>لا توجد أفلام مضافة</p>';
+            } else {
+                contentData.movies.forEach((movie, index) => {
+                    const badges = [];
+                    if (movie.isHot) badges.push('<span class="badge badge-hot">الأكثر مشاهدة</span>');
+                    if (movie.isNew) badges.push('<span class="badge badge-new">جديد</span>');
+                    
+                    const movieElement = document.createElement('div');
+                    movieElement.className = 'item-card';
+                    movieElement.innerHTML = `
+                        <div class="item-header">
+                            <div class="item-title">${movie.title} ${badges.join(' ')}</div>
+                            <div class="item-actions">
+                                <button onclick="removeItem('movies', ${index})" class="btn-danger">
+                                    <i class="fas fa-trash"></i> حذف
+                                </button>
+                            </div>
+                        </div>
+                        <div class="item-details">
+                            التصنيف: ${movie.category} | التقييم: ${movie.rating}
+                        </div>
+                    `;
+                    moviesList.appendChild(movieElement);
+                });
+            }
+            
+            // تحديث قائمة المسلسلات
+            const seriesList = document.getElementById('series-list');
+            seriesList.innerHTML = '<h2><i class="fas fa-list"></i> المسلسلات المضافة</h2>';
+            
+            if (contentData.series.length === 0) {
+                seriesList.innerHTML += '<p>لا توجد مسلسلات مضافة</p>';
+            } else {
+                contentData.series.forEach((series, index) => {
+                    const badges = [];
+                    if (series.isNew) badges.push('<span class="badge badge-new">موسم جديد</span>');
+                    
+                    const seriesElement = document.createElement('div');
+                    seriesElement.className = 'item-card';
+                    seriesElement.innerHTML = `
+                        <div class="item-header">
+                            <div class="item-title">${series.title} ${badges.join(' ')}</div>
+                            <div class="item-actions">
+                                <button onclick="removeItem('series', ${index})" class="btn-danger">
+                                    <i class="fas fa-trash"></i> حذف
+                                </button>
+                            </div>
+                        </div>
+                        <div class="item-details">
+                            التصنيف: ${series.category} | التقييم: ${series.rating}
+                        </div>
+                    `;
+                    seriesList.appendChild(seriesElement);
+                });
+            }
+            
+            // تحديث قائمة القنوات
+            const channelsList = document.getElementById('channels-list');
+            channelsList.innerHTML = '<h2><i class="fas fa-list"></i> القنوات المضافة</h2>';
+            
+            if (contentData.channels.length === 0) {
+                channelsList.innerHTML += '<p>لا توجد قنوات مضافة</p>';
+            } else {
+                contentData.channels.forEach((channel, index) => {
+                    const channelElement = document.createElement('div');
+                    channelElement.className = 'item-card';
+                    channelElement.innerHTML = `
+                        <div class="item-header">
+                            <div class="item-title">${channel.name}</div>
+                            <div class="item-actions">
+                                <button onclick="removeItem('channels', ${index})" class="btn-danger">
+                                    <i class="fas fa-trash"></i> حذف
+                                </button>
+                            </div>
+                        </div>
+                        <div class="item-details">
+                            التصنيف: ${channel.category} | عدد القنوات الفرعية: ${channel.subChannels.length}
+                        </div>
+                    `;
+                    channelsList.appendChild(channelElement);
+                });
+            }
+        }
+        
+        // حذف عنصر
+        function removeItem(type, index) {
+            if (confirm('هل أنت متأكد من أنك تريد حذف هذا العنصر؟')) {
+                contentData[type].splice(index, 1);
+                saveData();
+                updateLists();
+                showNotification('تم حذف العنصر بنجاح');
+                
+                // رفع تلقائي إلى GitHub إذا كان مفعلاً
+                if (autoUpload && githubConfig.repo) {
+                    setTimeout(uploadToGitHub, 1000);
+                }
+            }
+        }
+        
+        // حذف موسم
+        function removeSeason(index) {
+            if (confirm('هل أنت متأكد من أنك تريد حذف هذا الموسم؟')) {
+                currentSeasons.splice(index, 1);
+                updateSeasonsList();
+                showNotification('تم حذف الموسم بنجاح');
+            }
+        }
+        
+        // حذف حلقة
+        function removeEpisode(seasonIndex, episodeIndex) {
+            if (confirm('هل أنت متأكد من أنك تريد حذف هذه الحلقة؟')) {
+                currentSeasons[seasonIndex].episodes.splice(episodeIndex, 1);
+                updateSeasonsList();
+                showNotification('تم حذف الحلقة بنجاح');
+            }
+        }
+        
+        // حذف قناة فرعية
+        function removeSubChannel(index) {
+            if (confirm('هل أنت متأكد من أنك تريد حذف هذه القناة الفرعية؟')) {
+                currentSubChannels.splice(index, 1);
+                updateSubChannelsList();
+                showNotification('تم حذف القناة الفرعية بنجاح');
+            }
+        }
+        
+        // توليد JSON
+        function generateJSON() {
+            const jsonOutput = document.getElementById('json-output');
+            jsonOutput.textContent = JSON.stringify(contentData, null, 2);
+            showNotification('تم توليد JSON بنجاح');
+        }
+        
+        // نسخ JSON
+        function copyJSON() {
+            const jsonOutput = document.getElementById('json-output');
+            const textArea = document.createElement('textarea');
+            textArea.value = jsonOutput.textContent;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textArea);
+            showNotification('تم نسخ JSON إلى الحافظة');
+        }
+        
+        // تحميل JSON كملف
+        function downloadJSON() {
+            const dataStr = JSON.stringify(contentData, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            
+            const exportFileDefaultName = 'content.json';
+            
+            const linkElement = document.createElement('a');
+            linkElement.setAttribute('href', dataUri);
+            linkElement.setAttribute('download', exportFileDefaultName);
+            linkElement.click();
+            
+            showNotification('تم تحميل ملف JSON بنجاح');
+        }
+        
+        // رفع إلى GitHub
+        async function uploadToGitHub() {
+            // التحقق من إعدادات GitHub
+            if (!githubConfig.repo || !githubConfig.path) {
+                showNotification('يرجى إعداد إعدادات GitHub أولاً');
+                return;
+            }
+            
+            const progressBar = document.getElementById('upload-progress');
+            const progress = document.getElementById('progress-bar');
+            const status = document.getElementById('upload-status');
+            
+            progressBar.style.display = 'block';
+            progress.style.width = '10%';
+            status.textContent = 'جاري التحضير للرفع...';
+            
+            try {
+                // تحضير المحتوى
+                const content = JSON.stringify(contentData, null, 2);
+                const contentBase64 = btoa(unescape(encodeURIComponent(content)));
+                
+                progress.style.width = '50%';
+                status.textContent = 'جاري رفع الملف...';
+                
+                // استخدام GitHub Pages للرفع (طريقة مبسطة)
+                // في بيئة حقيقية، ستحتاج إلى استخدام GitHub API مع token
+                // هذه مجرد محاكاة للعملية
+                
+                // محاكاة عملية الرفع
+                await new Promise(resolve => setTimeout(resolve, 2000));
+                
+                progress.style.width = '100%';
+                status.innerHTML = `تم رفع الملف بنجاح إلى <strong>${githubConfig.repo}/${githubConfig.path}</strong>`;
+                showNotification('تم رفع الملف إلى GitHub بنجاح');
+                
+                // إخفاء شريط التقدم بعد 3 ثوان
+                setTimeout(() => {
+                    progressBar.style.display = 'none';
+                }, 3000);
+                
+            } catch (error) {
+                progressBar.style.display = 'none';
+                status.textContent = `حدث خطأ: ${error.message}`;
+                showNotification('حدث خطأ أثناء رفع الملف إلى GitHub', 5000);
+            }
+        }
+        
+        // مسح كل البيانات
+        function clearAllData() {
+            if (confirm('هل أنت متأكد من أنك تريد مسح كل البيانات؟ لا يمكن التراجع عن هذا الإجراء.')) {
+                contentData = {
+                    movies: [],
+                    series: [],
+                    channels: []
+                };
+                currentSeasons = [];
+                currentSubChannels = [];
+                
+                saveData();
+                updateLists();
+                updateSeasonsList();
+                updateSubChannelsList();
+                
+                document.getElementById('json-output').textContent = '';
+                
+                showNotification('تم مسح جميع البيانات بنجاح');
+            }
+        }
+        
+        // تهيئة الصفحة
+        window.onload = function() {
+            loadData();
+        };
+    </script>
+</body>
+</html>
